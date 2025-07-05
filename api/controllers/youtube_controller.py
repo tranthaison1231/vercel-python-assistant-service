@@ -2,7 +2,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List
 from flask import Blueprint, request, jsonify
 from api.services.transcript_service import fetch_and_process_transcript
-from api.services.youtube_service import get_latest_video_info
+from api.services.youtube_service import get_latest_video_info, get_streams_info
 from api.services.youtube_service import get_videos_info
 
 youtube_bp = Blueprint("youtube", __name__, url_prefix="/youtube")
@@ -36,6 +36,7 @@ def get_latest_video():
 def get_latest_videos():
     data = request.get_json() or {}
     channel_urls = data.get("channel_urls", [])
+    stream_channel_urls = data.get("stream_channel_urls", [])
 
     with ThreadPoolExecutor(max_workers=2) as executor:
         future_videos = [
@@ -43,8 +44,13 @@ def get_latest_videos():
             for channel_url in channel_urls
         ]
 
+        future_streams = [
+            executor.submit(get_streams_info, channel_url)
+            for channel_url in stream_channel_urls
+        ]
+
         videos = []
-        for future in as_completed(future_videos):
+        for future in as_completed(future_videos + future_streams):
             try:
                 result = future.result()
                 if result:
