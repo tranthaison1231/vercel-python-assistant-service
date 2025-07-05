@@ -53,7 +53,11 @@ def get_latest_videos():
                 print(f"Error fetching news from one source: {e}")
 
     if videos:
-        sorted_videos = sorted(videos, key=lambda x: x["published_date"], reverse=True)
+        # Filter out videos with missing or None published_date
+        videos_with_date = [v for v in videos if v.get("published_date")]
+        sorted_videos = sorted(
+            videos_with_date, key=lambda x: x["published_date"], reverse=True
+        )
         filtered_videos = sorted_videos[:10]
 
         return jsonify(
