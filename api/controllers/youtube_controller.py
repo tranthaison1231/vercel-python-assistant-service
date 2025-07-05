@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List
 from flask import Blueprint, request, jsonify
 from api.services.transcript_service import fetch_and_process_transcript
 from api.services.youtube_service import get_latest_video_info, get_streams_info
