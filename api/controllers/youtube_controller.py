@@ -35,12 +35,14 @@ def get_latest_video():
 def get_latest_videos():
     data = request.get_json() or {}
     channel_urls = data.get("channel_urls", [])
-    stream_channel_urls = data.get("stream_channel_urls", [])
+
+    video_channel_urls = [url for url in channel_urls if "/videos" in url]
+    stream_channel_urls = [url for url in channel_urls if "/streams" in url]
 
     with ThreadPoolExecutor(max_workers=2) as executor:
         future_videos = [
             executor.submit(get_videos_info, channel_url)
-            for channel_url in channel_urls
+            for channel_url in video_channel_urls
         ]
 
         future_streams = [
