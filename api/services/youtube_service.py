@@ -48,6 +48,7 @@ def get_videos_info(channel_url, max_results=5):
                         time_left_text=published_text, timezone="Asia/Ho_Chi_Minh"
                     ),
                     "channel": channel_name,
+                    "video_id": video_id,
                 }
             )
 
@@ -84,6 +85,7 @@ def get_streams_info(channel_url, max_results=5):
                         time_left_text=published_text_split, timezone="Asia/Ho_Chi_Minh"
                     ),
                     "channel": channel_name,
+                    "video_id": video_id,
                 }
             )
 
