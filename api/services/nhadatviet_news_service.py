@@ -41,15 +41,35 @@ def get_123nhadatviet_news():
             published_date = (
                 published_date_elem.text.strip() if published_date_elem else ""
             )
+
             published_date = published_date.replace("Ngày đăng: ", "")
 
-            if title:
+            area_elem = entry.find("div", class_="ct_dt")
+            area = area_elem.text.strip() if area_elem else ""
+
+            area = area.replace("Diện tích: ", "")
+
+            horizontal_elem = entry.find("div", class_="ct_kt")
+            horizontal = horizontal_elem.text.strip() if horizontal_elem else ""
+
+            horizontal = horizontal.replace("Kích thước: ", "")
+
+            horizontal = horizontal.split("x")[0]
+
+            try:
+                horizontal_value = float(horizontal.replace(",", "."))
+            except (ValueError, AttributeError):
+                horizontal_value = None
+
+            if title and (horizontal_value is None or horizontal_value > 5):
                 list.append(
                     {
                         "title": title,
                         "link": "https://123nhadatviet.com" + link,
                         "price": price,
                         "published_date": published_date,
+                        "area": area,
+                        "horizontal": horizontal,
                     }
                 )
 
