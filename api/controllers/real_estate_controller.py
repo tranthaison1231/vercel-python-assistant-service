@@ -38,7 +38,7 @@ def get_real_estate_news():
             {
                 "status": "success",
                 "count": len(ignore_list),
-                "ignore_list": ignore_list,
+                "list": ignore_list,
             }
         ), 200
     else:
