@@ -8,6 +8,9 @@ from api.services.nhadatviet_news_service import get_123nhadatviet_news
 real_estate_bp = Blueprint("real_estate", __name__, url_prefix="/real_estate")
 
 
+ignore_titles = ["Lê Thị Riêng", "Xuân Thiều", "Trường Chinh", "Phước Lý"]
+
+
 @real_estate_bp.route("/news", methods=["GET"])
 def get_real_estate_news():
     with ThreadPoolExecutor(max_workers=2) as executor:
@@ -22,12 +25,20 @@ def get_real_estate_news():
             except Exception as e:
                 print(f"Error fetching news from one source: {e}")
 
-    if list:
+    ignore_list = [
+        item
+        for item in list
+        if not any(
+            keyword.lower() in item["title"].lower() for keyword in ignore_titles
+        )
+    ]
+
+    if ignore_list:
         return jsonify(
             {
                 "status": "success",
-                "count": len(list),
-                "list": list,
+                "count": len(ignore_list),
+                "ignore_list": ignore_list,
             }
         ), 200
     else:
