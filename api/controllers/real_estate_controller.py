@@ -25,7 +25,7 @@ def get_real_estate_news():
             except Exception as e:
                 print(f"Error fetching news from one source: {e}")
 
-    ignore_list = [
+    list = [
         item
         for item in list
         if not any(
@@ -33,12 +33,12 @@ def get_real_estate_news():
         )
     ]
 
-    if ignore_list:
+    if list:
         return jsonify(
             {
                 "status": "success",
-                "count": len(ignore_list),
-                "list": ignore_list,
+                "count": len(list),
+                "list": list,
             }
         ), 200
     else:
