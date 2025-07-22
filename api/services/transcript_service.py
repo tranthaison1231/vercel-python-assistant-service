@@ -15,4 +15,4 @@ def fetch_and_process_transcript(video_id):
             if item.get("text") is not None and item.get("text", "") != "No text":
                 scripts += item.get("text", "")
         return scripts
-    return "@424"
+    return None
