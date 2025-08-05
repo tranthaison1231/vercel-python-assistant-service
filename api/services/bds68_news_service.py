@@ -25,8 +25,6 @@ def get_bds68_news():
         # Find all entries in the Atom feed
         entries = soup.find_all("div", class_="prop-box-item-contain")
 
-        print(f"Found {len(entries)} entries")
-
         for entry in entries:
             title_elem = entry.find("div", class_="header-prop-title").find("a")
             title = title_elem.text.strip() if title_elem else ""
@@ -42,16 +40,15 @@ def get_bds68_news():
                 if price_span:
                     price = price_span.text.strip()
 
-            published_date_elem = entry.find("div", class_="ct_date")
-            published_date = (
-                published_date_elem.text.strip() if published_date_elem else ""
-            )
-
-            published_date = published_date.replace("Ngày đăng: ", "")
+            published_date = ""
+            published_date_elem = entry.find("div", class_="prop-grid-date")
+            if published_date_elem:
+                span = published_date_elem.find("span")
+                if span:
+                    published_date = span.text.strip()
 
             area_elem = entry.find("div", class_="prop-price-lotsize")
 
-            print(area_elem)
             area = ""
             if area_elem:
                 area_spans = area_elem.find_all("span", class_="prop-item-info")
@@ -76,7 +73,7 @@ def get_bds68_news():
                 list.append(
                     {
                         "title": title,
-                        "link": "https://123nhadatviet.com" + link,
+                        "link": "https://bds68.com.vn" + link,
                         "price": price,
                         "published_date": published_date,
                         "area": area,

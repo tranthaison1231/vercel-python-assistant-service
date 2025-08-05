@@ -9,7 +9,7 @@ from api.services.bds68_news_service import get_bds68_news
 real_estate_bp = Blueprint("real_estate", __name__, url_prefix="/real_estate")
 
 
-ignore_titles = ["Lê Thị Riêng", "Xuân Thiều", "Trường Chinh", "Phước Lý"]
+ignore_titles = ["Lê Thị Riêng", "Xuân Thiều", "Trường Chinh", "Phước Lý", "sông hàn"]
 
 
 @real_estate_bp.route("/news", methods=["GET"])
